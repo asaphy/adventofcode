@@ -1,0 +1,38 @@
+class Box:
+    length: int
+    height: int
+    width: int
+
+    def __init__(self, length, height, width):
+        self.length = length
+        self.height = height
+        self.width = width
+
+
+def calculate_wrapping_paper_needed() -> int:
+    input_array = parse_input_into_list()
+    total_wrapping_paper_needed = 0
+    for box in input_array:
+        total_wrapping_paper_needed += calculate_surface_area(box.height, box.length, box.width)
+        total_wrapping_paper_needed += calculate_extra_area(box.height, box.length, box.width)
+    return total_wrapping_paper_needed
+
+def parse_input_into_list():
+    input_array = []
+    f = open("input.txt")
+    data = f.readlines()
+    for line in data:
+        length, height, width = line.split("x")
+        input_array.append(Box(length=length, height=height, width=width))
+        f.close()
+    return input_array
+
+
+def calculate_surface_area(h: int, l: int, w: int) -> int:
+    return (2 * int(l) * int(w)) + (2 * int(w) * int(h)) + (2 * int(h) * int(l))
+
+
+def calculate_extra_area(h: int, l: int, w: int) -> int:
+    return min([(int(h)* int(l)), (int(l) * int(w)), (int(h) * int(w))])
+
+calculate_wrapping_paper_needed()
